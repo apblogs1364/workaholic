@@ -3,12 +3,12 @@ session_start();
 include 'header.php';
 
 // ---- ACCESS CHECK ----
-if (!isset($_SESSION['admin_name'])) {
+if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
     exit;
 }
 
-$admin = $_SESSION['admin_name'];
+$admin = $_SESSION['username'];
 ?>
 
 <!-- Main Wrapper -->
@@ -17,14 +17,6 @@ $admin = $_SESSION['admin_name'];
 
     <!-- Content Area -->
     <main class="flex-1 p-8">
-
-        <!-- Top Bar -->
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <!-- <p class="text-gray-700">Welcome, <span class="font-semibold"><?php //echo $admin; 
-                                                                                ?></span></p>-->
-            <p class="text-gray-700">Welcome, <span class="font-semibold">User</span></p>
-        </div>
 
         <!-- Statistic Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -94,5 +86,3 @@ $admin = $_SESSION['admin_name'];
 
 <?php include 'footer.php'; ?>
 </body>
-
-</html>
