@@ -29,17 +29,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
             <nav class="mt-4 px-4 space-y-2">
                 <a href="admin_dashboard.php"
-                    class="block bg-indigo-600 px-4 py-3 rounded-md font-medium">Dashboard</a>
+                    class="block hover:bg-indigo-600 px-4 py-3 rounded-md font-medium">Dashboard</a>
 
-                <a href="manage_admins.php" class="block px-4 py-3 hover:bg-indigo-600 rounded-md">
+                <a href="manage_admins.php"
+                    class="block px-4 py-3 hover:bg-indigo-600 rounded-md">
                     Manage Admins
                 </a>
 
-                <a href="manage_users.php" class="block px-4 py-3 hover:bg-indigo-600 rounded-md">
-                    Manage Users
-                </a>
-
-                <a href="manage_clients.php" class="block px-4 py-3 hover:bg-indigo-600 rounded-md">
+                <a href="manage_companies.php" class="block px-4 py-3 hover:bg-indigo-600 rounded-md">
                     Manage Companies
                 </a>
 

@@ -22,7 +22,7 @@ $admin = $_SESSION['username'];
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
             <div class="bg-white shadow rounded-xl p-6">
-                <h3 class="text-gray-500">Total Clients</h3>
+                <h3 class="text-gray-500">Total Companies</h3>
                 <p class="text-3xl font-bold text-indigo-700 mt-2">120</p>
             </div>
 
@@ -71,7 +71,7 @@ $admin = $_SESSION['username'];
                     <tr>
                         <td class="px-4 py-3 font-medium">Anjali Sharma</td>
                         <td class="px-4 py-3">anjali@example.com</td>
-                        <td class="px-4 py-3">Client</td>
+                        <td class="px-4 py-3">Company</td>
                         <td class="px-4 py-3 text-center">
                             <a href="#" class="text-indigo-600 hover:underline">View</a>
                         </td>
