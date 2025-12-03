@@ -151,7 +151,7 @@ if (isset($_POST['add_freelancer'])) {
     // ADD / EDIT FORM UI
     // -------------------------------
     if (isset($_GET['action']) && ($_GET['action'] === 'add' || $_GET['action'] === 'edit')):
-    ?>
+        ?>
 
         <form method="POST" enctype="multipart/form-data"
             class="bg-white shadow rounded-xl p-6 max-w-3xl space-y-6 validateForm">
@@ -197,7 +197,7 @@ if (isset($_POST['add_freelancer'])) {
             <div>
                 <label class="block font-medium mb-1">Profile Image</label>
                 <input type="file" name="profile_img" class="w-full border px-3 py-2 rounded"
-                    data-validation="file filesize" data-filesize="1024">
+                    data-validation="<?= $_GET['action'] === 'add' ? 'required ' : '' ?>file filesize" data-filesize="1024">
                 <p class="error text-red-500 text-sm mt-1" id="profile_imgError"></p>
 
                 <?php if (!empty($record['profile_img'])): ?>
@@ -265,10 +265,10 @@ if (isset($_POST['add_freelancer'])) {
                 value="1">
         </form>
 
-    <?php
-    // END FORM
+        <?php
+        // END FORM
     else:
-    ?>
+        ?>
 
         <!-- ---------------- LIST SECTION ---------------- -->
         <?php
@@ -331,8 +331,7 @@ if (isset($_POST['add_freelancer'])) {
     <?php endif; ?>
 
     <script src="../assets/jquery.min.js"></script>
-    <script src="../assets/validate.js"></script>
+    <script src="../assets/validate.js?v=<?= time(); ?>"></script>
 </main>
 
-</body>
 <?php include 'footer.php'; ?>

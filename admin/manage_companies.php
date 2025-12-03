@@ -172,7 +172,7 @@ if (isset($_POST['add_company'])) {
             <div>
                 <label>Profile Image</label>
                 <input type="file" name="profile_img" class="w-full border px-3 py-2 rounded"
-                    data-validation="file filesize" data-filesize="1024">
+                    data-validation="<?= $_GET['action'] === 'add' ? 'required ' : '' ?>file filesize" data-filesize="1024">
                 <p class="error text-red-500 text-sm mt-1" id="profile_imgError"></p>
                 <?php if (!empty($record['profile_img'])): ?>
                     <img src="../uploads/profile/<?= $record['profile_img']; ?>" class="w-20 h-20 mt-2 rounded-full">
@@ -269,6 +269,5 @@ if (isset($_POST['add_company'])) {
 </main>
 
 <script src="../assets/jquery.min.js"></script>
-<script src="../assets/validate.js"></script>
-</body>
+<script src="../assets/validate.js?v=<?= time(); ?>"></script>
 <?php include 'footer.php'; ?>
