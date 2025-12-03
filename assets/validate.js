@@ -93,7 +93,9 @@ $(document).ready(function () {
       // FILE VALIDATION
       if (validationType.includes("file")) {
         if (field[0].files.length === 0) {
-          errorMessage = "Please upload a file.";
+          if (validationType.includes("required")) {
+            errorMessage = "Please upload a file.";
+          }
         } else {
           let file = field[0].files[0];
           let fileName = file.name;
@@ -112,14 +114,14 @@ $(document).ready(function () {
     }
 
     // Select dropdown
-      if (
-        !errorMessage &&
-        field.is("select") &&
-        validationType.includes("required") &&
-        (value === "" || field.find("option:selected").index() === 0)
-      ) {
-        errorMessage = "Please select an option.";
-      }
+    if (
+      !errorMessage &&
+      field.is("select") &&
+      validationType.includes("required") &&
+      (value === "" || field.find("option:selected").index() === 0)
+    ) {
+      errorMessage = "Please select an option.";
+    }
 
     // -------- DISPLAY ERROR --------
     if (errorMessage) {

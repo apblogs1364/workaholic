@@ -120,7 +120,7 @@ if (isset($_POST['add_freelancer'])) {
     // Insert into users table
     $conn->query("
         INSERT INTO users (username, user_email, user_phone, role, user_password, profile_img)
-        VALUES ('$username', '$email', '$phone', 'freelancer', '$password', '$filename')
+        VALUES ('$username', '$email', '$phone', 'Freelancer', '$password', '$filename')
     ");
 
     $new_user_id = $conn->insert_id;
@@ -153,7 +153,8 @@ if (isset($_POST['add_freelancer'])) {
     if (isset($_GET['action']) && ($_GET['action'] === 'add' || $_GET['action'] === 'edit')):
     ?>
 
-        <form method="POST" enctype="multipart/form-data" class="bg-white shadow rounded-xl p-6 max-w-3xl space-y-6">
+        <form method="POST" enctype="multipart/form-data"
+            class="bg-white shadow rounded-xl p-6 max-w-3xl space-y-6 validateForm">
 
             <input type="hidden" name="user_id" value="<?= $record['user_id'] ?? '' ?>">
             <input type="hidden" name="freelancer_id" value="<?= $record['freelancer_id'] ?? '' ?>">
@@ -161,53 +162,43 @@ if (isset($_POST['add_freelancer'])) {
             <!-- USERNAME -->
             <div>
                 <label class="block font-medium mb-1">Username</label>
-                <input type="text" name="username"
-                    value="<?= $record['username'] ?? '' ?>"
-                    class="w-full border px-3 py-2 rounded"
-                    data-validation="required alpha">
-                <p class="error" id="usernameError"></p>
+                <input type="text" name="username" value="<?= $record['username'] ?? '' ?>"
+                    class="w-full border px-3 py-2 rounded" data-validation="required alpha">
+                <p class="error text-red-500 text-sm mt-1" id="usernameError"></p>
             </div>
 
             <!-- EMAIL -->
             <div>
                 <label class="block font-medium mb-1">Email</label>
-                <input type="email" name="user_email"
-                    value="<?= $record['user_email'] ?? '' ?>"
-                    class="w-full border px-3 py-2 rounded"
-                    data-validation="required email">
-                <p class="error" id="user_emailError"></p>
+                <input type="email" name="user_email" value="<?= $record['user_email'] ?? '' ?>"
+                    class="w-full border px-3 py-2 rounded" data-validation="required email">
+                <p class="error text-red-500 text-sm mt-1" id="user_emailError"></p>
             </div>
 
             <!-- PHONE -->
             <div>
                 <label class="block font-medium mb-1">Phone</label>
-                <input type="text" name="user_phone"
-                    value="<?= $record['user_phone'] ?? '' ?>"
-                    class="w-full border px-3 py-2 rounded"
-                    data-validation="required numeric min"
-                    data-min="10">
-                <p class="error" id="user_phoneError"></p>
+                <input type="text" name="user_phone" value="<?= $record['user_phone'] ?? '' ?>"
+                    class="w-full border px-3 py-2 rounded" data-validation="required numeric min" data-min="10">
+                <p class="error text-red-500 text-sm mt-1" id="user_phoneError"></p>
             </div>
 
             <?php if ($_GET['action'] === 'add'): ?>
                 <!-- PASSWORD -->
                 <div>
                     <label class="block font-medium mb-1">Password</label>
-                    <input type="password" name="user_password"
-                        class="w-full border px-3 py-2 rounded"
+                    <input type="password" name="user_password" class="w-full border px-3 py-2 rounded"
                         data-validation="required strongPassword">
-                    <p class="error" id="user_passwordError"></p>
+                    <p class="error text-red-500 text-sm mt-1" id="user_passwordError"></p>
                 </div>
             <?php endif; ?>
 
             <!-- PROFILE IMAGE -->
             <div>
                 <label class="block font-medium mb-1">Profile Image</label>
-                <input type="file" name="profile_img"
-                    class="w-full border px-3 py-2 rounded"
-                    data-validation="file filesize"
-                    data-filesize="1024">
-                <p class="error" id="profile_imgError"></p>
+                <input type="file" name="profile_img" class="w-full border px-3 py-2 rounded"
+                    data-validation="file filesize" data-filesize="1024">
+                <p class="error text-red-500 text-sm mt-1" id="profile_imgError"></p>
 
                 <?php if (!empty($record['profile_img'])): ?>
                     <img src="../uploads/profile/<?= $record['profile_img']; ?>" class="w-20 h-20 rounded-full mt-2">
@@ -217,56 +208,49 @@ if (isset($_POST['add_freelancer'])) {
             <!-- FIRST NAME -->
             <div>
                 <label class="block font-medium mb-1">First Name</label>
-                <input type="text" name="fname"
-                    value="<?= $record['fname'] ?? '' ?>"
-                    class="w-full border px-3 py-2 rounded"
-                    data-validation="required alpha">
-                <p class="error" id="fnameError"></p>
+                <input type="text" name="fname" value="<?= $record['fname'] ?? '' ?>"
+                    class="w-full border px-3 py-2 rounded" data-validation="required alpha">
+                <p class="error text-red-500 text-sm mt-1" id="fnameError"></p>
             </div>
 
             <!-- LAST NAME -->
             <div>
                 <label class="block font-medium mb-1">Last Name</label>
-                <input type="text" name="lname"
-                    value="<?= $record['lname'] ?? '' ?>"
-                    class="w-full border px-3 py-2 rounded"
-                    data-validation="required alpha">
-                <p class="error" id="lnameError"></p>
+                <input type="text" name="lname" value="<?= $record['lname'] ?? '' ?>"
+                    class="w-full border px-3 py-2 rounded" data-validation="required alpha">
+                <p class="error text-red-500 text-sm mt-1" id="lnameError"></p>
             </div>
 
             <!-- BIO -->
             <div>
                 <label class="block font-medium mb-1">Bio</label>
-                <textarea name="bio" class="w-full border px-3 py-2 rounded" data-validation="required"><?= $record['bio'] ?? '' ?></textarea>
-                <p class="error" id="bioError"></p>
+                <textarea name="bio" class="w-full border px-3 py-2 rounded"
+                    data-validation="required"><?= $record['bio'] ?? '' ?></textarea>
+                <p class="error text-red-500 text-sm mt-1" id="bioError"></p>
             </div>
 
             <!-- SKILLS -->
             <div>
                 <label class="block font-medium mb-1">Skills</label>
-                <input type="text" name="skills"
-                    value="<?= $record['skills'] ?? '' ?>"
-                    class="w-full border px-3 py-2 rounded"
-                    data-validation="required">
-                <p class="error" id="skillsError"></p>
+                <input type="text" name="skills" value="<?= $record['skills'] ?? '' ?>"
+                    class="w-full border px-3 py-2 rounded" data-validation="required">
+                <p class="error text-red-500 text-sm mt-1" id="skillsError"></p>
             </div>
 
             <!-- EXPERIENCE -->
             <div>
                 <label class="block font-medium mb-1">Experience (years)</label>
-                <input type="text" name="experience_year"
-                    value="<?= $record['experience_year'] ?? '' ?>"
-                    class="w-full border px-3 py-2 rounded"
-                    data-validation="required numeric">
-                <p class="error" id="experience_yearError"></p>
+                <input type="text" name="experience_year" value="<?= $record['experience_year'] ?? '' ?>"
+                    class="w-full border px-3 py-2 rounded" data-validation="required numeric">
+                <p class="error text-red-500 text-sm mt-1" id="experience_yearError"></p>
             </div>
 
             <!-- PORTFOLIO -->
             <div>
                 <label class="block font-medium mb-1">Portfolio URL</label>
-                <input type="text" name="portfolio_url"
-                    value="<?= $record['portfolio_url'] ?? '' ?>"
-                    class="w-full border px-3 py-2 rounded">
+                <input type="text" name="portfolio_url" value="<?= $record['portfolio_url'] ?? '' ?>"
+                    class="w-full border px-3 py-2 rounded" data-validation="required">
+                <p class="error text-red-500 text-sm mt-1" id="portfolio_urlError"></p>
             </div>
 
             <!-- BUTTONS -->
@@ -277,7 +261,8 @@ if (isset($_POST['add_freelancer'])) {
                 <a href="manage_freelancers.php" class="text-indigo-600 hover:underline">Back</a>
             </div>
 
-            <input type="hidden" name="<?= $_GET['action'] === 'edit' ? "update_freelancer" : "add_freelancer" ?>" value="1">
+            <input type="hidden" name="<?= $_GET['action'] === 'edit' ? "update_freelancer" : "add_freelancer" ?>"
+                value="1">
         </form>
 
     <?php
@@ -305,7 +290,7 @@ if (isset($_POST['add_freelancer'])) {
                     <th class="p-3">Phone</th>
                     <th class="p-3">Skills</th>
                     <th class="p-3">Experience</th>
-                    <th class="p-3">Created</th>
+                    <th class="p-3">Joined</th>
                     <th class="p-3">Actions</th>
                 </tr>
             </thead>
@@ -334,8 +319,7 @@ if (isset($_POST['add_freelancer'])) {
                             </a>
 
                             <a href="manage_freelancers.php?action=delete&user_id=<?= $row['user_id']; ?>&freelancer_id=<?= $row['freelancer_id']; ?>"
-                                onclick="return confirm('Delete freelancer?')"
-                                class="text-red-600 hover:underline">
+                                onclick="return confirm('Delete freelancer?')" class="text-red-600 hover:underline">
                                 Delete
                             </a>
                         </td>
@@ -346,7 +330,9 @@ if (isset($_POST['add_freelancer'])) {
 
     <?php endif; ?>
 
+    <script src="../assets/jquery.min.js"></script>
+    <script src="../assets/validate.js"></script>
 </main>
 
-<script src="../assets/js/validation.js"></script>
 </body>
+<?php include 'footer.php'; ?>

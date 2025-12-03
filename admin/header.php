@@ -44,12 +44,28 @@ if (session_status() === PHP_SESSION_NONE) {
                     Manage Freelancers
                 </a>
 
+                <a href="manage_categories.php" class="block px-4 py-3 hover:bg-indigo-600 rounded-md">
+                    Manage Categories
+                </a>
+
+                <a href="manage_jobs.php" class="block px-4 py-3 hover:bg-indigo-600 rounded-md">
+                    Manage Jobs
+                </a>
+
+                <a href="manage_proposals.php" class="block px-4 py-3 hover:bg-indigo-600 rounded-md">
+                    Manage Proposals
+                </a>
+
                 <a href="manage_contracts.php" class="block px-4 py-3 hover:bg-indigo-600 rounded-md">
                     Manage Contracts
                 </a>
 
                 <a href="payments.php" class="block px-4 py-3 hover:bg-indigo-600 rounded-md">
                     Payments
+                </a>
+
+                <a href="reviews.php" class="block px-4 py-3 hover:bg-indigo-600 rounded-md">
+                    Reviews
                 </a>
 
                 <a href="../index.php"

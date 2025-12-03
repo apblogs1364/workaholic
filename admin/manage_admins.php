@@ -231,6 +231,7 @@ if ($action === "delete" && isset($_GET['id'])) {
 
     <script src="../assets/jquery.min.js"></script>
     <script src="../assets/validate.js"></script>
-    <?php include 'footer.php'; ?>
+
 </div>
 </body>
+<?php include 'footer.php'; ?>
