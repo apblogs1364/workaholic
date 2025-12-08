@@ -151,7 +151,7 @@ if (isset($_POST['add_freelancer'])) {
     // ADD / EDIT FORM UI
     // -------------------------------
     if (isset($_GET['action']) && ($_GET['action'] === 'add' || $_GET['action'] === 'edit')):
-        ?>
+    ?>
 
         <form method="POST" enctype="multipart/form-data"
             class="bg-white shadow rounded-xl p-6 max-w-3xl space-y-6 validateForm">
@@ -201,7 +201,7 @@ if (isset($_POST['add_freelancer'])) {
                 <p class="error text-red-500 text-sm mt-1" id="profile_imgError"></p>
 
                 <?php if (!empty($record['profile_img'])): ?>
-                    <img src="../uploads/profile/<?= $record['profile_img']; ?>" class="w-20 h-20 rounded-full mt-2">
+                    <img src="../uploads/profile/<?= basename($record['profile_img']); ?>" class="w-20 h-20 rounded-full mt-2">
                 <?php endif; ?>
             </div>
 
@@ -265,10 +265,10 @@ if (isset($_POST['add_freelancer'])) {
                 value="1">
         </form>
 
-        <?php
-        // END FORM
+    <?php
+    // END FORM
     else:
-        ?>
+    ?>
 
         <!-- ---------------- LIST SECTION ---------------- -->
         <?php
@@ -281,7 +281,7 @@ if (isset($_POST['add_freelancer'])) {
     ");
         ?>
 
-        <table class="min-w-full bg-white shadow rounded-xl overflow-hidden">
+        <table class="min-w-full bg-white shadow rounded-xl overflow-hidden text-center">
             <thead class="bg-gray-100">
                 <tr>
                     <th class="p-3">Profile</th>
@@ -299,7 +299,7 @@ if (isset($_POST['add_freelancer'])) {
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <tr class="border-b">
                         <td class="p-3">
-                            <img src="../uploads/profile/<?= $row['profile_img']; ?>"
+                            <img src="../uploads/profile/<?= basename($row['profile_img']); ?>"
                                 class="w-12 h-12 rounded-full object-cover">
                         </td>
 

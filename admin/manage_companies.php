@@ -175,7 +175,7 @@ if (isset($_POST['add_company'])) {
                     data-validation="<?= $_GET['action'] === 'add' ? 'required ' : '' ?>file filesize" data-filesize="1024">
                 <p class="error text-red-500 text-sm mt-1" id="profile_imgError"></p>
                 <?php if (!empty($record['profile_img'])): ?>
-                    <img src="../uploads/profile/<?= $record['profile_img']; ?>" class="w-20 h-20 mt-2 rounded-full">
+                    <img src="../uploads/profile/<?= basename($record['profile_img']); ?>" class="w-20 h-20 mt-2 rounded-full">
                 <?php endif; ?>
             </div>
 
@@ -228,7 +228,7 @@ if (isset($_POST['add_company'])) {
         $result = $conn->query("SELECT u.*, c.* FROM users u JOIN companies c ON u.user_id=c.user_id ORDER BY c.company_id DESC");
         ?>
 
-        <table class="min-w-full bg-white shadow rounded-xl overflow-hidden">
+        <table class="min-w-full bg-white shadow rounded-xl overflow-hidden text-center">
             <thead class="bg-gray-100">
                 <tr>
                     <th class="p-3">Profile</th>
@@ -245,7 +245,7 @@ if (isset($_POST['add_company'])) {
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <tr class="border-b">
                         <td class="p-3">
-                            <img src="../uploads/profile/<?= $row['profile_img']; ?>" class="w-12 h-12 rounded-full">
+                            <img src="../uploads/profile/<?= basename($row['profile_img']); ?>" class="w-12 h-12 rounded-full">
                         </td>
                         <td class="p-3"><?= $row['username']; ?></td>
                         <td class="p-3"><?= $row['user_email']; ?></td>

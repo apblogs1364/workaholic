@@ -69,7 +69,7 @@ $(document).ready(function () {
       // NUMERIC
       if (!errorMessage &&
         validationType.includes("numeric") &&
-        !/^\d+$/.test(value)
+        !/^\d+(\.\d+)?$/.test(value)
       ) {
         errorMessage = "Only numbers are allowed.";
       }

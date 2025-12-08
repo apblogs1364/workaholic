@@ -1,12 +1,9 @@
 <?php include 'header.php'; ?>
 
-
 <!-- Main content placeholder -->
 <main class="max-w-7xl mx-auto p-6">
   <h1 class="text-3xl font-bold text-gray-900">Welcome to Workaholic</h1>
   <p class="mt-4 text-gray-700">Your freelancer marketplace.</p>
-
-
 </main>
 
 <!-- Hero Section -->
@@ -26,7 +23,7 @@
           Visit Freelancers
         </a>
         <a href="company.php" class="inline-block rounded-md border border-indigo-600 px-6 py-3 text-indigo-600 text-lg font-semibold hover:bg-indigo-50 transition">
-          Visti Comapny
+          Visit Company
         </a>
       </div>
     </div>
@@ -41,6 +38,7 @@
     </div>
   </div>
 </section>
+
 <!-- Featured Companies Section -->
 <section class="bg-gray-50 py-16">
   <div class="max-w-7xl mx-auto px-6">
@@ -129,8 +127,6 @@
     </div>
   </div>
 </section>
-
-
 
 <?php include 'footer.php'; ?>
 </body>
