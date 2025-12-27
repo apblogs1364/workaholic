@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($role === "freelancer") {
         $conn->query("INSERT INTO freelancers (user_id, fname, lname, bio, skills, experience_year, portfolio_url, created_at) VALUES ($user_id,'','','','','','',NOW())");
     } elseif ($role === "company") {
-        $conn->query("INSERT INTO companies (user_id, company_name, company_address, company_description, company_website, business_type, created_at) VALUES ($user_id,'','','','','',NOW())");
+        $conn->query("INSERT INTO companies (user_id, company_name, company_address, company_description, company_website, category_id, created_at) VALUES ($user_id,'','','','','',NOW())");
     }
 
     echo "<script>alert('Registration successful!'); window.location.href='login.php';</script>";

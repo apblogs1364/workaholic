@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2025 at 05:39 AM
+-- Generation Time: Dec 27, 2025 at 05:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,8 +62,8 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`category_id`, `category_name`, `category_description`) VALUES
 (1, 'IT', 'avc'),
-(3, 'It', 'wer'),
-(6, 'Finance', 'fin');
+(6, 'Finance', 'fin'),
+(8, 'HR', 'hr');
 
 -- --------------------------------------------------------
 
@@ -78,7 +78,7 @@ CREATE TABLE `companies` (
   `company_address` text NOT NULL,
   `company_description` text NOT NULL,
   `company_website` varchar(255) NOT NULL,
-  `business_type` varchar(255) NOT NULL,
+  `category_id` int(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -86,13 +86,14 @@ CREATE TABLE `companies` (
 -- Dumping data for table `companies`
 --
 
-INSERT INTO `companies` (`company_id`, `user_id`, `company_name`, `company_address`, `company_description`, `company_website`, `business_type`, `created_at`) VALUES
-(1, 2, 'Tushar Babar', 'Rajkot, Gujarat', 'Good with Foreign Clients.', 'abc.in', 'IT', '2025-12-01 13:04:09'),
-(2, 2, 'Tushar Babar', 'Rajkot, Gujarat', 'Good with Foreign Clients.', 'abc.in', 'IT', '2025-12-01 13:04:09'),
-(3, 2, 'Tushar Babar', 'Rajkot, Gujarat', 'Good with Foreign Clients.', 'abc.in', 'IT', '2025-12-01 13:04:18'),
-(4, 2, 'Tushar Babar', 'Rajkot, Gujarat', 'Good with Foreign Clients.', 'abc.in', 'IT', '2025-12-01 13:12:49'),
-(5, 2, 'Tushar Babar', 'Rajkot, Gujarat', 'Good with Foreign Clients.', 'abc.in', 'IT', '2025-12-01 13:12:59'),
-(11, 8, 'Carposium Empire', 'Rajkot, Gujarat', 'abc', 'url.com', 'IT', '2025-12-02 03:15:45');
+INSERT INTO `companies` (`company_id`, `user_id`, `company_name`, `company_address`, `company_description`, `company_website`, `category_id`, `created_at`) VALUES
+(1, 2, 'Tushar Babar', 'Rajkot, Gujarat', 'Good with Foreign Clients.', 'abc.in', 0, '2025-12-01 13:04:09'),
+(2, 2, 'Tushar Babar', 'Rajkot, Gujarat', 'Good with Foreign Clients.', 'abc.in', 0, '2025-12-01 13:04:09'),
+(3, 2, 'Tushar Babar', 'Rajkot, Gujarat', 'Good with Foreign Clients.', 'abc.in', 0, '2025-12-01 13:04:18'),
+(4, 2, 'Tushar Babar', 'Rajkot, Gujarat', 'Good with Foreign Clients.', 'abc.in', 0, '2025-12-01 13:12:49'),
+(5, 2, 'Tushar Babar', 'Rajkot, Gujarat', 'Good with Foreign Clients.', 'abc.in', 0, '2025-12-01 13:12:59'),
+(11, 8, 'Carposium Empire', 'Rajkot, Gujarat', 'abc', 'url.com', 6, '2025-12-27 14:09:28'),
+(12, 10, 'U & K', 'Rajkot, Gujarat', 'avc', 'abc.in', 1, '2025-12-27 15:22:14');
 
 -- --------------------------------------------------------
 
@@ -103,7 +104,7 @@ INSERT INTO `companies` (`company_id`, `user_id`, `company_name`, `company_addre
 CREATE TABLE `contracts` (
   `contract_id` int(11) NOT NULL,
   `job_id` int(11) NOT NULL,
-  `client_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
   `freelancer_id` int(11) NOT NULL,
   `agreed_amount` decimal(10,2) NOT NULL,
   `status` enum('active','completed','cancelled','') NOT NULL DEFAULT 'active',
@@ -134,30 +135,8 @@ CREATE TABLE `freelancers` (
 --
 
 INSERT INTO `freelancers` (`freelancer_id`, `user_id`, `fname`, `lname`, `bio`, `skills`, `experience_year`, `portfolio_url`, `created_at`) VALUES
-(1, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:14:44'),
-(2, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:15:14'),
-(3, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:15:19'),
-(4, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:15:29'),
-(5, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:15:36'),
-(6, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:18:12'),
-(7, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:20:52'),
-(8, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:20:58'),
-(9, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:31:55'),
-(10, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:31:59'),
-(11, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:34:01'),
-(12, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:34:15'),
-(13, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:34:27'),
-(14, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:37:52'),
-(15, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:37:53'),
-(16, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:38:14'),
-(17, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:38:22'),
-(18, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:41:15'),
-(19, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:46:38'),
-(20, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:46:42'),
-(21, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:46:48'),
-(22, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:46:50'),
-(23, 1, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-01 13:47:37'),
-(25, 5, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-02 01:29:18');
+(31, 11, 'Jenny', 'Wilson', 'abc', 'Java', 1, 'xyz.com', '2025-12-27 15:19:28'),
+(32, 12, 'Anjali', 'Parmar', 'Graphic Designer', 'Photoshop', 1, 'abc.com', '2025-12-27 16:33:21');
 
 -- --------------------------------------------------------
 
@@ -167,7 +146,7 @@ INSERT INTO `freelancers` (`freelancer_id`, `user_id`, `fname`, `lname`, `bio`, 
 
 CREATE TABLE `jobs` (
   `jobs_id` int(11) NOT NULL,
-  `client_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -175,6 +154,15 @@ CREATE TABLE `jobs` (
   `status` enum('open','in_progress','completed','close') NOT NULL DEFAULT 'open',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jobs`
+--
+
+INSERT INTO `jobs` (`jobs_id`, `company_id`, `category_id`, `title`, `description`, `budget`, `status`, `created_at`) VALUES
+(3, 11, 1, 'ABVXC', 'xyz', 500000.00, 'in_progress', '2025-12-08 23:12:40'),
+(4, 11, 1, 'xyz', 'avc', 250000.00, 'open', '2025-12-08 23:12:21'),
+(6, 12, 1, 'InfoTech', 'abcabcabc', 5000.00, 'open', '2025-12-27 16:39:58');
 
 -- --------------------------------------------------------
 
@@ -222,6 +210,15 @@ CREATE TABLE `proposals` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `proposals`
+--
+
+INSERT INTO `proposals` (`proposal_id`, `job_id`, `freelancer_id`, `cover_letter`, `bid_amount`, `status`, `created_at`) VALUES
+(4, 4, 9, 'abc', 200000.00, 'pending', '2025-12-08 23:33:40'),
+(7, 3, 9, 'asdvscv', 450000.00, '', '2025-12-09 01:41:23'),
+(8, 4, 12, 'abc', 250.00, 'pending', '2025-12-27 16:38:23');
+
 -- --------------------------------------------------------
 
 --
@@ -260,8 +257,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `user_email`, `role`, `user_phone`, `user_password`, `profile_img`, `created_at`) VALUES
-(5, 'anjali', 'ap@gmail.com', 'freelancer', '9876543210', '$2y$10$sHntiM.9XikcZ/bPVkl11uu1ZNdsY9z0eje2IE3dH0a5e/tHZNS1S', '1764638958_WhatsApp Image 2025-01-23 at 17.17.37_d6f5189c.jpg', '2025-12-02 01:29:18'),
-(8, 'tushar', 'tb@gmail.com', 'company', '7894561230', '$2y$10$rfQs.G49AtjMylLesdjMd.fcj7Lv6/pSUlsVQKmEUHpY56WuLzunK', '1764645345_Tuchu.jpg', '2025-12-02 03:15:45');
+(8, 'Carposium Empire', 'tb@gmail.com', 'company', '7894561230', '$2y$10$rfQs.G49AtjMylLesdjMd.fcj7Lv6/pSUlsVQKmEUHpY56WuLzunK', 'uploads/profile/1765214440_Tushar.jpg', '2025-12-08 17:20:40'),
+(10, 'U & K', 'uk@gmail.com', 'company', '7894561230', '$2y$10$CeXDcF158EBrw2CYVhJpwuLpw4Q1.ZN6GQAP0NwqMzrAlFmlINtQK', 'uploads/profile/1766848628_1766351456_vivek (1).jpg', '2025-12-27 15:22:14'),
+(11, 'Jenny', 'jn@gmail.com', 'freelancer', '7418529630', '$2y$10$bU6P3BTA/YdgpuwBWuWRrO//StWaFq2RmGixf5GDttMdAdQ0nP.wy', 'uploads/profile/1766848711_1766350927_anaya (1).jpg', '2025-12-27 15:19:28'),
+(12, 'Anjali', 'ap@gmail.com', 'freelancer', '9876543210', '$2y$10$1MfFrHLK7SBX86B0ygte0eBmS59n//NPfDEgZ.aPdeg9V0X/QQDB.', 'uploads/profile/1766853132_1766351215_isha (1).jpg', '2025-12-27 16:32:47');
 
 --
 -- Indexes for dumped tables
@@ -347,13 +346,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `contracts`
@@ -365,13 +364,13 @@ ALTER TABLE `contracts`
 -- AUTO_INCREMENT for table `freelancers`
 --
 ALTER TABLE `freelancers`
-  MODIFY `freelancer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `freelancer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `jobs_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `jobs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -389,7 +388,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `proposals`
 --
 ALTER TABLE `proposals`
-  MODIFY `proposal_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `proposal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -401,7 +400,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

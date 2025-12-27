@@ -6,6 +6,14 @@ include 'config.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+$categoryFilter = "";
+
+if (isset($_GET['category_id']) && is_numeric($_GET['category_id'])) {
+    $categoryId = (int) $_GET['category_id'];
+    $categoryFilter = "WHERE c.category_id = $categoryId";
+}
+
 ?>
 
 <section class="bg-gray-100 py-16">
@@ -65,61 +73,70 @@ if (session_status() === PHP_SESSION_NONE) {
         <?php
         // Companies with jobs first, then others (joined with users for profile_img)
         $sql = "
-            SELECT c.*,
-                   COUNT(j.jobs_id) AS job_count,
-                   u.profile_img
-            FROM companies c
-            LEFT JOIN jobs j ON j.company_id = c.company_id
-            JOIN users u ON u.user_id = c.user_id
-            GROUP BY c.company_id
-            ORDER BY job_count DESC, c.created_at DESC
-        ";
+        SELECT c.*,
+               COUNT(j.jobs_id) AS job_count,
+               u.profile_img,
+               cat.category_name
+        FROM companies c
+        LEFT JOIN jobs j ON j.company_id = c.company_id
+        JOIN users u ON u.user_id = c.user_id
+        JOIN categories cat ON cat.category_id = c.category_id
+        $categoryFilter
+        GROUP BY c.company_id
+        ORDER BY job_count DESC, c.created_at DESC
+    ";
         $companies = mysqli_query($conn, $sql);
         ?>
 
         <h2 class="text-3xl font-bold text-center mt-10 mb-8">Companies</h2>
 
-        <div class="grid md:grid-cols-3 gap-10">
-            <?php while ($row = mysqli_fetch_assoc($companies)) { ?>
-                <div class="bg-white shadow-lg p-6 rounded-xl">
+        <div class="grid md:grid-cols-3 gap-10 text-center">
+            <?php if (mysqli_num_rows($companies) > 0) { ?>
+                <?php while ($row = mysqli_fetch_assoc($companies)) { ?>
+                    <div class="bg-white shadow-lg p-6 rounded-xl">
 
-                    <?php
-                    $img = !empty($row['profile_img']) ? $row['profile_img'] : 'Images/default.png';
-                    ?>
-                    <div class="mb-4 flex justify-center">
-                        <img src="<?php echo htmlspecialchars($img); ?>"
-                            class="w-16 h-16 rounded-full object-cover border">
-                    </div>
-
-                    <h3 class="text-2xl font-bold mb-2"><?php echo htmlspecialchars($row['company_name']); ?></h3>
-
-                    <p class="text-gray-600 mb-1 text-sm">
-                        Jobs posted: <?php echo (int)$row['job_count']; ?>
-                    </p>
-
-                    <p class="text-gray-600 mb-4">
                         <?php
-                        $desc = $row['company_description'] ?? '';
-                        echo htmlspecialchars(mb_substr($desc, 0, 90)) . "...";
+                        $img = !empty($row['profile_img']) ? $row['profile_img'] : 'Images/default.png';
                         ?>
-                    </p>
+                        <div class="mb-4 flex justify-center">
+                            <img src="<?php echo htmlspecialchars($img); ?>"
+                                class="w-16 h-16 rounded-full object-cover border">
+                        </div>
 
-                    <div class="mt-4">
-                        <?php if (isset($_SESSION['user_id'])) { ?>
-                            <!-- Logged-in user: go to company details -->
-                            <a href="company_details.php?id=<?php echo (int)$row['company_id']; ?>"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg inline-block">
-                                View Details →
-                            </a>
-                        <?php } else { ?>
-                            <!-- Guest must login first -->
-                            <a href="login.php"
-                                class="text-blue-600 font-semibold hover:underline">
-                                Login to view company details →
-                            </a>
-                        <?php } ?>
+                        <h3 class="text-2xl font-bold mb-2"><?php echo htmlspecialchars($row['company_name']); ?></h3>
+
+                        <p class="text-gray-600 mb-1 text-sm">
+                            Jobs posted: <?php echo (int)$row['job_count']; ?>
+                        </p>
+
+                        <div class="mt-4">
+                            <?php if (isset($_SESSION['user_id'])) { ?>
+                                <!-- Logged-in user: go to company details -->
+                                <a href="company_details.php?id=<?php echo (int)$row['company_id']; ?>"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg inline-block">
+                                    View Details →
+                                </a>
+                            <?php } else { ?>
+                                <!-- Guest must login first -->
+                                <a href="login.php"
+                                    class="text-blue-600 font-semibold hover:underline">
+                                    Login to view company details →
+                                </a>
+                            <?php } ?>
+                        </div>
+
                     </div>
+                <?php } ?>
 
+            <?php } else { ?>
+                <!-- DATA NOT FOUND MESSAGE -->
+                <div class="col-span-full text-center py-16">
+                    <h3 class="text-2xl font-bold text-gray-700">
+                        Data not found
+                    </h3>
+                    <p class="text-gray-500 mt-2">
+                        No companies found under this category.
+                    </p>
                 </div>
             <?php } ?>
         </div>

@@ -100,13 +100,23 @@ $jobs_result = $stmtJobs->get_result();
                     </a>
                 </p>
             <?php } ?>
-            <?php if (!empty($company['business_type'])) { ?>
-                <p class="text-gray-700 mb-6">
-                    <strong>Business Type: </strong><?php echo htmlspecialchars($company['business_type']); ?>
-                </p>
-            <?php } ?>
 
-
+            <?php
+            $type_name = "Not added";
+            if (!empty($company['category_id'])) {
+                $cat_id = (int)$company['category_id'];
+                $cat_stmt = $conn->prepare("SELECT category_name FROM categories WHERE category_id = ?");
+                $cat_stmt->bind_param("i", $cat_id);
+                $cat_stmt->execute();
+                $cat_res = $cat_stmt->get_result()->fetch_assoc();
+                if ($cat_res) {
+                    $type_name = $cat_res['category_name'];
+                }
+            }
+            ?>
+            <p class="text-gray-700 mb-6">
+                <strong>Business Type: </strong><?php echo htmlspecialchars($type_name); ?>
+            </p>
 
 
             <!-- JOIN BUTTON ONLY IF LOGGED IN (already enforced at top) 
@@ -144,10 +154,16 @@ $jobs_result = $stmtJobs->get_result();
                             </p>
 
                             <?php if ($user_role === 'freelancer'): ?>
-                                <a href="apply_job.php?job_id=<?php echo (int)$job['jobs_id']; ?>"
-                                    class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm">
-                                    Apply Now
-                                </a>
+                                <?php if (in_array($job['status'], ['completed', 'close'])): ?>
+                                    <span class="text-sm text-red-600 font-semibold">
+                                        Applications Closed
+                                    </span>
+                                <?php else: ?>
+                                    <a href="proposal.php?job_id=<?php echo (int)$job['jobs_id']; ?>"
+                                        class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm">
+                                        Apply Now
+                                    </a>
+                                <?php endif; ?>
                             <?php else: ?>
                                 <p class="text-xs text-gray-500">Only freelancers can apply to jobs.</p>
                             <?php endif; ?>

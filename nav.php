@@ -15,7 +15,7 @@ $navCategories = $navCatResult ? $navCatResult->fetch_all(MYSQLI_ASSOC) : [];
         <div class="flex justify-between h-16 items-center">
 
             <!-- Brand -->
-            <a href="#" class="text-2xl font-bold hover:text-indigo-400">Workaholic</a>
+            <a href="index.php" class="text-2xl font-bold hover:text-indigo-400">Workaholic</a>
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-8 items-center">
@@ -27,37 +27,38 @@ $navCategories = $navCatResult ? $navCatResult->fetch_all(MYSQLI_ASSOC) : [];
                 ?>
 
                 <!-- Company dropdown (SHOW only if NOT company) -->
-                <?php if ($role !== 'company'): ?>
-                    <div class="relative group">
-                        <button class="hover:text-indigo-400 px-3 py-2 text-sm font-medium flex items-center">
-                            Company
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
 
-                        <div class="absolute left-0 top-full w-44 bg-gray-700 rounded-md shadow-lg
+                <div class="relative group">
+                    <button class="hover:text-indigo-400 px-3 py-2 text-sm font-medium flex items-center">
+                        Company
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div class="absolute left-0 top-full w-44 bg-gray-700 rounded-md shadow-lg
                 hidden group-hover:block group-hover:flex hover:flex flex-col z-20">
-                            <a href="company.php"
+                        <a href="company.php"
+                            class="block px-4 py-2 text-sm hover:bg-indigo-500 hover:text-white hover:rounded-md">
+                            All Companies
+                        </a>
+                        <div class="border-t border-gray-600 my-1"></div>
+                        <?php foreach ($navCategories as $cat): ?>
+                            <a href="company.php?category_id=<?php echo (int)$cat['category_id']; ?>"
                                 class="block px-4 py-2 text-sm hover:bg-indigo-500 hover:text-white hover:rounded-md">
-                                All Companies
+                                <?php echo htmlspecialchars($cat['category_name']); ?>
                             </a>
-                            <div class="border-t border-gray-600 my-1"></div>
-                            <?php foreach ($navCategories as $cat): ?>
-                                <a href="company.php?category_id=<?php echo (int)$cat['category_id']; ?>"
-                                    class="block px-4 py-2 text-sm hover:bg-indigo-500 hover:text-white hover:rounded-md">
-                                    <?php echo htmlspecialchars($cat['category_name']); ?>
-                                </a>
-                            <?php endforeach; ?>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
-                <?php endif; ?>
+                </div>
+
 
                 <!-- Freelancer link (SHOW only if NOT freelancer) -->
-                <?php if ($role !== 'freelancer'): ?>
-                    <a href="freelancer.php" class="hover:text-indigo-400 px-3 py-2 text-sm font-medium">Freelancer</a>
-                <?php endif; ?>
+
+                <a href="freelancer.php" class="hover:text-indigo-400 px-3 py-2 text-sm font-medium">Freelancer</a>
+
+                <a href="job_view.php" class="hover:text-indigo-400 px-3 py-2 text-sm font-medium">Jobs</a>
 
                 <a href="review.php" class="hover:text-indigo-400 px-3 py-2 text-sm font-medium">Reviews</a>
 
@@ -83,10 +84,13 @@ $navCategories = $navCatResult ? $navCatResult->fetch_all(MYSQLI_ASSOC) : [];
                             class="block px-4 py-2 text-sm hover:bg-indigo-500 hover:text-white hover:rounded-md">
                             Services
                         </a>
+
+                        <a href="contact.php"
+                            class="block px-4 py-2 text-sm hover:bg-indigo-500 hover:text-white hover:rounded-md">
+                            Contact
+                        </a>
                     </div>
                 </div>
-
-                <a href="contact.php" class="hover:text-indigo-400 px-3 py-2 text-sm font-medium">Contact</a>
 
                 <!-- LOGIN / SIGNUP / PROFILE -->
                 <?php if (isset($_SESSION['user_id']) || isset($_SESSION['admin_id'])): ?>
@@ -186,31 +190,32 @@ $navCategories = $navCatResult ? $navCatResult->fetch_all(MYSQLI_ASSOC) : [];
 
         <a href="index.php" class="block px-3 py-2 rounded-md text-base hover:bg-indigo-500">Home</a>
 
-        <?php if ($role !== 'company'): ?>
-            <!-- Company toggle button -->
-            <button
-                class="w-full flex justify-between items-center px-3 py-2 text-base font-semibold text-gray-100 hover:bg-indigo-500"
-                onclick="toggleDropdown('companyMenu')">
-                Company
-                <span class="text-xl font-bold">+</span>
-            </button>
 
-            <!-- Company submenu (hidden by default) -->
-            <div id="companyMenu" class="hidden pl-5 space-y-1">
-                <a href="company.php" class="block py-2 rounded-md hover:bg-indigo-500">All Companies</a>
+        <!-- Company toggle button -->
+        <button
+            class="w-full flex justify-between items-center px-3 py-2 text-base font-semibold text-gray-100 hover:bg-indigo-500"
+            onclick="toggleDropdown('companyMenu')">
+            Company
+            <span class="text-xl font-bold">+</span>
+        </button>
 
-                <?php foreach ($navCategories as $cat): ?>
-                    <a href="company.php?category_id=<?php echo (int)$cat['category_id']; ?>"
-                        class="block py-2 rounded-md hover:bg-indigo-500">
-                        <?php echo htmlspecialchars($cat['category_name']); ?>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
+        <!-- Company submenu (hidden by default) -->
+        <div id="companyMenu" class="hidden pl-5 space-y-1">
+            <a href="company.php" class="block py-2 rounded-md hover:bg-indigo-500">All Companies</a>
 
-        <?php if ($role !== 'freelancer'): ?>
-            <a href="freelancer.php" class="block px-3 py-2 rounded-md text-base hover:bg-indigo-500">Freelancer</a>
-        <?php endif; ?>
+            <?php foreach ($navCategories as $cat): ?>
+                <a href="company.php?category_id=<?php echo (int)$cat['category_id']; ?>"
+                    class="block py-2 rounded-md hover:bg-indigo-500">
+                    <?php echo htmlspecialchars($cat['category_name']); ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+
+
+
+        <a href="freelancer.php" class="block px-3 py-2 rounded-md text-base hover:bg-indigo-500">Freelancer</a>
+
+        <a href="job_view.php" class="block px-3 py-2 rounded-md text-base hover:bg-indigo-500">Jobs</a>
 
         <a href="review.php" class="block px-3 py-2 rounded-md text-base hover:bg-indigo-500">Reviews</a>
 
@@ -226,9 +231,8 @@ $navCategories = $navCatResult ? $navCatResult->fetch_all(MYSQLI_ASSOC) : [];
         <div id="infoMenu" class="hidden pl-5 space-y-1">
             <a href="about.php" class="block py-2 rounded-md hover:bg-indigo-500">About</a>
             <a href="service.php" class="block py-2 rounded-md hover:bg-indigo-500">Services</a>
+            <a href="contact.php" class="block py-2 rounded-md hover:bg-indigo-500">Contact</a>
         </div>
-
-        <a href="contact.php" class="block px-3 py-2 rounded-md text-base hover:bg-indigo-500">Contact</a>
 
         <?php if (isset($_SESSION['user_id']) || isset($_SESSION['admin_id'])): ?>
             <!-- Account toggle -->

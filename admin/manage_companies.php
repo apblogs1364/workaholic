@@ -54,7 +54,7 @@ if (isset($_POST['update_company'])) {
     $company_address = $_POST['company_address'];
     $company_description = $_POST['company_description'];
     $company_website = $_POST['company_website'];
-    $business_type = $_POST['business_type'];
+    $category_id = $_POST['category_id'];
 
     // IMAGE UPLOAD
     if (!empty($_FILES['profile_img']['name'])) {
@@ -78,7 +78,7 @@ if (isset($_POST['update_company'])) {
             company_address='$company_address',
             company_description='$company_description',
             company_website='$company_website',
-            business_type='$business_type'
+            category_id='$category_id'
         WHERE company_id=$company_id
     ");
 
@@ -99,7 +99,7 @@ if (isset($_POST['add_company'])) {
     $company_address = $_POST['company_address'];
     $company_description = $_POST['company_description'];
     $company_website = $_POST['company_website'];
-    $business_type = $_POST['business_type'];
+    $category_id = $_POST['category_id'];
 
     // Upload profile image
     $filename = "";
@@ -113,7 +113,7 @@ if (isset($_POST['add_company'])) {
     $new_user_id = $conn->insert_id;
 
     // insert into companies table
-    $conn->query("INSERT INTO companies (user_id, company_name, company_address, company_description, company_website, business_type, created_at) VALUES ($new_user_id, '$company_name', '$company_address', '$company_description', '$company_website', '$business_type', NOW())");
+    $conn->query("INSERT INTO companies (user_id, company_name, company_address, company_description, company_website, category_id, created_at) VALUES ($new_user_id, '$company_name', '$company_address', '$company_description', '$company_website', '$category_id', NOW())");
 
     header("Location: manage_companies.php");
     exit;
@@ -206,9 +206,9 @@ if (isset($_POST['add_company'])) {
             </div>
             <div>
                 <label>Business Type</label>
-                <input type="text" name="business_type" value="<?= $record['business_type'] ?? '' ?>"
+                <input type="text" name="category_id" value="<?= $record['category_id'] ?? '' ?>"
                     class="w-full border px-3 py-2 rounded" data-validation="required">
-                <p class="error text-red-500 text-sm mt-1" id="business_typeError"></p>
+                <p class="error text-red-500 text-sm mt-1" id="category_idError"></p>
             </div>
 
             <div class="flex items-center gap-4 mt-6">
@@ -251,7 +251,7 @@ if (isset($_POST['add_company'])) {
                         <td class="p-3"><?= $row['user_email']; ?></td>
                         <td class="p-3"><?= $row['user_phone']; ?></td>
                         <td class="p-3"><?= $row['company_name']; ?></td>
-                        <td class="p-3"><?= $row['business_type']; ?></td>
+                        <td class="p-3"><?= $row['category_id']; ?></td>
                         <td class="p-3 text-gray-600"><?= date("d M Y", strtotime($row['created_at'])); ?></td>
                         <td class="p-3 flex gap-4">
                             <a href="manage_companies.php?action=edit&user_id=<?= $row['user_id']; ?>&company_id=<?= $row['company_id']; ?>"

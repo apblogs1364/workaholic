@@ -69,10 +69,10 @@ if ($role === "freelancer") {
         $company_address     = $company['company_address'];
         $company_description = $company['company_description'];
         $company_website     = $company['company_website'];
-        $business_type       = $company['business_type'];
+        $category_id       = (int)$company['category_id'];
     } else {
         $company_name = $company_address = $company_description =
-            $company_website = $business_type = "";
+            $company_website = $category_id = "";
     }
 }
 
@@ -149,12 +149,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_changes'])) {
                 $c_add     = trim($_POST['company_address']);
                 $c_desc    = trim($_POST['company_description']);
                 $c_web     = trim($_POST['company_website']);
-                $c_type    = trim($_POST['business_type']);
+                $c_type    = (int)trim($_POST['category_id']);
 
                 $q = $conn->prepare("UPDATE companies 
-                        SET company_name=?, company_address=?, company_description=?, company_website=?, business_type=? 
+                        SET company_name=?, company_address=?, company_description=?, company_website=?, category_id=? 
                         WHERE user_id=?");
-                $q->bind_param("sssssi", $c_name, $c_add, $c_desc, $c_web, $c_type, $user_id);
+                $q->bind_param("ssssii", $c_name, $c_add, $c_desc, $c_web, $c_type, $user_id);
                 $q->execute();
 
                 /* Update username based on Company Name */
@@ -249,7 +249,17 @@ include "header.php";
                 <?php else: ?>
 
                     <p><strong>Address:</strong> <?= $company_address ?: "Not added" ?></p>
-                    <p><strong>Type:</strong> <?= $business_type ?: "Not added" ?></p>
+                    <?php
+                    $type_name = "Not added";
+                    if ($category_id) {
+                        $catRes = $conn->prepare("SELECT category_name FROM categories WHERE category_id=?");
+                        $catRes->bind_param("i", $category_id);
+                        $catRes->execute();
+                        $catRow = $catRes->get_result()->fetch_assoc();
+                        if ($catRow) $type_name = $catRow['category_name'];
+                    }
+                    ?>
+                    <p><strong>Type:</strong> <?= $type_name ?></p>
                     <p><strong>Website:</strong> <?= $company_website ?: "Not added" ?></p>
 
                 <?php endif; ?>
@@ -263,9 +273,26 @@ include "header.php";
 
                 <!-- Manage Jobs Button for Company -->
                 <?php if ($role === 'company'): ?>
-                    <a href="manage_job.php"
+                    <a href="job.php"
                         class="px-6 py-2 bg-green-600 text-white rounded-xl shadow hover:bg-green-700">
                         Manage Jobs
+                    </a>
+                    <a href="proposals_receive.php"
+                        class="px-6 py-2 bg-green-600 text-white rounded-xl shadow hover:bg-green-700">
+                        Proposals Receive
+                    </a>
+                    <a href="contract.php"
+                        class="px-6 py-2 bg-green-600 text-white rounded-xl shadow hover:bg-green-700">
+                        Contracts
+                    </a>
+                <?php elseif ($role === 'freelancer'): ?>
+                    <a href="view_proposal.php"
+                        class="px-6 py-2 bg-green-600 text-white rounded-xl shadow hover:bg-green-700">
+                        View Proposals
+                    </a>
+                    <a href="contract.php"
+                        class="px-6 py-2 bg-green-600 text-white rounded-xl shadow hover:bg-green-700">
+                        Contracts
                     </a>
                 <?php endif; ?>
             </div>
@@ -355,14 +382,14 @@ include "header.php";
 
                         <div>
                             <label>Business Type</label>
-                            <select name="business_type"
+                            <select name="category_id"
                                 class="form-control"
                                 data-validation="required">
                                 <option value="">-- Select Business Type --</option>
 
                                 <?php while ($cat = $catQuery->fetch_assoc()): ?>
-                                    <option value="<?= $cat['category_name']; ?>"
-                                        <?= ($business_type === $cat['category_name']) ? "selected" : "" ?>>
+                                    <option value="<?= $cat['category_id']; ?>"
+                                        <?= ($category_id == $cat['category_id']) ? "selected" : "" ?>>
                                         <?= $cat['category_name']; ?>
                                     </option>
                                 <?php endwhile; ?>

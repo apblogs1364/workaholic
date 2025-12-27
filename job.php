@@ -19,7 +19,7 @@ $status_labels = [
 ];
 
 // Find this user's company_id
-$stmt = $conn->prepare("SELECT company_id, business_type AS category_id FROM companies WHERE user_id = ?");
+$stmt = $conn->prepare("SELECT company_id, category_id AS category_id FROM companies WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $res = $stmt->get_result()->fetch_assoc();
@@ -87,7 +87,7 @@ if ($company_id && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_j
                 $upd->bind_param("issssi", $company_category_id, $job_title, $job_description, $job_budget, $job_status, $job_id);
                 if ($upd->execute()) {
                     $job_success = "Job updated successfully at " . date("Y-m-d H:i:s");
-                    header("Location: manage_job.php?success=1");
+                    header("Location: job.php?success=1");
                     exit();
                 } else {
                     $job_error = "Failed to update job.";
@@ -236,9 +236,9 @@ include 'header.php';
                                         <?php echo htmlspecialchars($job['created_at']); ?>
                                     </td>
                                     <td class="px-4 py-2 border-b text-center space-x-2">
-                                        <a href="manage_job.php?action=edit&id=<?php echo (int)$job['jobs_id']; ?>"
+                                        <a href="job.php?action=edit&id=<?php echo (int)$job['jobs_id']; ?>"
                                             class="text-indigo-600 hover:underline">Edit</a>
-                                        <a href="manage_job.php?action=delete&id=<?php echo (int)$job['jobs_id']; ?>"
+                                        <a href="job.php?action=delete&id=<?php echo (int)$job['jobs_id']; ?>"
                                             class="text-red-600 hover:underline"
                                             onclick="return confirm('Are you sure you want to delete this job?');">
                                             Delete
@@ -310,7 +310,7 @@ include 'header.php';
                         <?php echo $edit_job ? 'Update Job' : 'Create Job'; ?>
                     </button>
                     <?php if ($edit_job): ?>
-                        <a href="manage_job.php"
+                        <a href="job.php"
                             class="ml-3 px-6 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 shadow inline-block text-center">
                             Cancel Edit
                         </a>

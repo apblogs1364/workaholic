@@ -6,7 +6,6 @@ $page_title = "Manage Jobs";
 include 'header.php';
 
 // ---------------- AUTH CHECK ----------------
-// Only admin should access this page
 if (!isset($_SESSION['admin_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../login.php");
     exit();
@@ -96,11 +95,11 @@ if (isset($_GET['success'])) {
 
     <!-- SUCCESS & ERROR -->
     <?php if ($job_success): ?>
-        <div class="bg-green-100 text-green-700 p-3 mb-4 rounded"><?= $job_success ?></div>
+        <div id="jobSuccessMsg" class="bg-green-100 text-green-700 p-3 mb-4 rounded"><?= $job_success ?></div>
     <?php endif; ?>
 
     <?php if ($job_error): ?>
-        <div class="bg-red-100 text-red-700 p-3 mb-4 rounded"><?= $job_error ?></div>
+        <div id="jobErrorMsg" class="bg-red-100 text-red-700 p-3 mb-4 rounded"><?= $job_error ?></div>
     <?php endif; ?>
 
 
@@ -114,7 +113,9 @@ if (isset($_GET['success'])) {
             <!-- TITLE -->
             <div>
                 <label class="block font-medium mb-1">Job Title</label>
-                <input type="text" name="job_title" value="<?= $edit_record['title'] ?>"
+                <input type="text"
+                    name="job_title"
+                    value="<?= $edit_record['title'] ?>"
                     class="w-full border px-3 py-2 rounded"
                     data-validation="required alpha">
                 <p class="error text-red-500 text-sm mt-1" id="job_titleError"></p>
@@ -123,7 +124,8 @@ if (isset($_GET['success'])) {
             <!-- DESCRIPTION -->
             <div>
                 <label class="block font-medium mb-1">Description</label>
-                <textarea name="job_description"
+                <textarea
+                    name="job_description"
                     class="w-full border px-3 py-2 rounded"
                     data-validation="required"><?= $edit_record['description'] ?></textarea>
                 <p class="error text-red-500 text-sm mt-1" id="job_descriptionError"></p>
@@ -132,7 +134,9 @@ if (isset($_GET['success'])) {
             <!-- BUDGET -->
             <div>
                 <label class="block font-medium mb-1">Budget</label>
-                <input type="text" name="job_budget" value="<?= $edit_record['budget'] ?>"
+                <input type="text"
+                    name="job_budget"
+                    value="<?= $edit_record['budget'] ?>"
                     class="w-full border px-3 py-2 rounded"
                     data-validation="required numeric">
                 <p class="error text-red-500 text-sm mt-1" id="job_budgetError"></p>
@@ -141,18 +145,18 @@ if (isset($_GET['success'])) {
             <!-- STATUS -->
             <div>
                 <label class="block font-medium mb-1">Status</label>
-                <select name="job_status" class="w-full border px-3 py-2 rounded" data-validation="required">
+                <select name="job_status"
+                    class="w-full border px-3 py-2 rounded">
                     <?php foreach ($status_labels as $k => $v): ?>
                         <option value="<?= $k ?>" <?= $edit_record['status'] === $k ? 'selected' : '' ?>>
                             <?= $v ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
-                <p class="error text-red-500 text-sm mt-1" id="job_statusError"></p>
             </div>
 
             <!-- BUTTONS -->
-            <div class="flex gap-4 mt-4">
+            <div class="flex items-center gap-4 pt-3">
                 <button class="bg-indigo-600 text-white px-4 py-2 rounded">
                     Update Job
                 </button>
@@ -206,7 +210,30 @@ if (isset($_GET['success'])) {
 
     <?php endif; ?>
 
-    <script src="assets/jquery.min.js"></script>
-    <script src="assets/validate.js?v=<?= time(); ?>"></script>
+    <script>
+        // Auto-hide success message after 2 seconds
+        setTimeout(function() {
+            const msg = document.getElementById('jobSuccessMsg');
+            if (msg) {
+                msg.style.opacity = '0';
+                msg.style.transition = 'opacity 0.5s ease';
+                setTimeout(function() {
+                    msg.remove();
+                }, 500);
+            }
+
+            const err = document.getElementById('jobErrorMsg');
+            if (err) {
+                err.style.opacity = '0';
+                err.style.transition = 'opacity 0.5s ease';
+                setTimeout(function() {
+                    err.remove();
+                }, 500);
+            }
+        }, 2000);
+    </script>
+    <script src="../assets/jquery.min.js"></script>
+    <script src="../assets/validate.js"></script>
 </main>
+
 <?php include 'footer.php'; ?>

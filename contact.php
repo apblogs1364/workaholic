@@ -36,7 +36,7 @@ include 'header.php';
 
             <div class="flex items-center space-x-4">
                 <span class="bg-blue-100 text-blue-600 p-3 rounded-full">📧</span>
-                <a href="mailto:support@yourstore.com" class="text-blue-600 hover:underline">support@work.com</a>
+                <a href="mailto:workaholic847282@gmail.com" class="text-blue-600 hover:underline">workaholic847282@gmail.com</a>
             </div>
 
             <div class="flex items-center space-x-4">
